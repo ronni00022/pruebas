@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddlewar
 
 app = FastAPI()
+
 origins = ["*"]
 
 app.add_middleware(
