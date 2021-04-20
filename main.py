@@ -13,7 +13,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+class Item(BaseModel):
+    name: str
+    description: str
 
 #domain where this api is hosted for example : localhost:5000/docs to see swagger documentation automagically generated.
 
@@ -22,3 +24,6 @@ app.add_middleware(
 def home():
     return {"message":"Hello TutLinks.com"}
 
+@app.post("/")
+def postItem(item:Item):
+    return item
