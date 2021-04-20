@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from Item import Person
 
 
 app = FastAPI()
@@ -13,9 +13,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-class Item(BaseModel):
-    name: str
-    description: str
+
 
 #domain where this api is hosted for example : localhost:5000/docs to see swagger documentation automagically generated.
 
@@ -25,5 +23,5 @@ def home():
     return {"message":"Hello TutLinks.com"}
 
 @app.post("/")
-def postItem(item:Item):
+def postItem(item:Person):
     return item
