@@ -25,7 +25,7 @@ def home():
     return {"message":"Hello TutLinks.com"}
 
 #---------------------Login AND REGISTRATION-----------------#
-@app.post("/registeruser")
+@app.post("/registeruser",response_model=User)
 def postItem(user:User, status_code=200):
     validation = utilitiesUser.ValidateRegistration(user)
     if validation == True:
@@ -33,7 +33,7 @@ def postItem(user:User, status_code=200):
     utilitiesUser.RegisterUser(user)
     return {"message":"Registro exitoso"}
 
-@app.post("/login")
+@app.post("/login",response_model=Login)
 def login(user:Login):
     validation = utilitiesUser.ValidateUser(user)
     if validation == False:
@@ -55,12 +55,12 @@ def SearchEnrollment():
         raise HTTPException(status_code=404, detail="Matricula no existe")
     return data
 
-@app.post("/registervehicle")
+@app.post("/registervehicle",response_class=VehicleRegister)
 def registervehicle(vehicle:VehicleRegister):
     utilitiesVehicle.RegisterVehicle(vehicle)
     return {"message":"Registro Exitoso"}
 
-@app.put("/updatevehicle/{enrollment}")
+@app.put("/updatevehicle/{enrollment}",response_class=VehicleRegister)
 def updatevehicle (vehicle:VehicleRegister,enrollment:str):
     data = utilitiesVehicle.SearchVehicleByEnrollment(enrollment)
     if data == False:
@@ -69,12 +69,12 @@ def updatevehicle (vehicle:VehicleRegister,enrollment:str):
     return {"message":"Actualizacion Exitosa"}
 
 #-----------------CUSTOMER------------------------#
-@app.post("/registerCustomer")
+@app.post("/registerCustomer",response_class=CustomerManagement)
 def registerCustomer(customer:CustomerManagement):
     utilitiesCustomer.RegistrePerson(customer)
     return {"message":"Registro Existoso"}
 
-@app.put("/updateCustomer/{Id}")
+@app.put("/updateCustomer/{Id}",response_class=CustomerManagement)
 def updateCustomer(customer:CustomerManagement, Id:str):
     utilitiesCustomer.UpdatePerson(customer,Id)
     return {"message":"Actualizacion Exitosa"}
