@@ -1,11 +1,15 @@
 from pydantic import BaseModel
 
-class Login(BaseModel):
+class User(BaseModel):
     username:str
     password:str
     email:str
 
-class VehicleManagement(BaseModel):
+class Login(BaseModel):
+    username: str
+    password: str
+
+class VehicleRegister(BaseModel):
     BRAND:str
     MODEL: str
     YEAR: int
@@ -36,4 +40,10 @@ class GestionOfReservs(BaseModel):
     CUSTOMER:str
     STARTDATE:str
     ENDINGDATE:str
+
+class AllUpdate(BaseModel):
+    Id: str
+    campo:str
+    valor:str
+
 

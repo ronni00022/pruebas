@@ -1,7 +1,7 @@
 from fastapi import FastAPI,HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from models import VehicleManagement,CustomerManagement,Login,GestionOfReservs
-import utilities
+from models import VehicleRegister,CustomerManagement,Login,GestionOfReservs,User
+from utilities import utilitiesUser,utilitiesVehicle,utilitiesCustomer
 import sqlite3
 
 
@@ -24,15 +24,63 @@ app.add_middleware(
 def home():
     return {"message":"Hello TutLinks.com"}
 
+#---------------------Login AND REGISTRATION-----------------#
 @app.post("/registeruser")
-def postItem(user:Login):
-    conexion=sqlite3.connect('app.db')
-    registro=conexion.cursor()
-    validation = utilities.ValidateRegistration(user.username, user.email)
+def postItem(user:User, status_code=200):
+    validation = utilitiesUser.ValidateRegistration(user)
     if validation == True:
         raise HTTPException(status_code=201, detail="Usuario ya existe")
-    registro.execute("INSERT INTO USERS(USERNAME,PASSWORD,EMAIL) VALUES (?,?,?)",(user.username,user.password,user.email))
-    conexion.commit()
+    utilitiesUser.RegisterUser(user)
     return {"message":"Registro exitoso"}
+
+@app.post("/login")
+def login(user:Login):
+    validation = utilitiesUser.ValidateUser(user)
+    if validation == False:
+        raise HTTPException(status_code=404, detail='Usuario no Existe')
+    return {"token": validation}
+
+#----------------------VEHICLE---------------------------#
+
+@app.get("/SearchEnrollment/{enrollment}")
+def SearchEnrollment(enrollment:str):
+    data = utilitiesVehicle.SearchVehicleByEnrollment(enrollment)
+    if data == False:
+        raise HTTPException(status_code=404, detail="Matricula no existe")
+    return data
+@app.get("/AllVehicle")
+def SearchEnrollment():
+    data = utilitiesVehicle.AllVehicle()
+    if data == False:
+        raise HTTPException(status_code=404, detail="Matricula no existe")
+    return data
+
+@app.post("/registervehicle")
+def registervehicle(vehicle:VehicleRegister):
+    utilitiesVehicle.RegisterVehicle(vehicle)
+    return {"message":"Registro Exitoso"}
+
+@app.put("/updatevehicle/{enrollment}")
+def updatevehicle (vehicle:VehicleRegister,enrollment:str):
+    data = utilitiesVehicle.SearchVehicleByEnrollment(enrollment)
+    if data == False:
+        raise HTTPException(status_code=404, detail="Matricula no existe")
+    utilitiesVehicle.UpdateVehicle(vehicle,enrollment)
+    return {"message":"Actualizacion Exitosa"}
+
+#-----------------CUSTOMER------------------------#
+@app.post("/registerCustomer")
+def registerCustomer(customer:CustomerManagement):
+    utilitiesCustomer.RegistrePerson(customer)
+    return {"message":"Registro Existoso"}
+
+@app.put("/updateCustomer/{Id}")
+def updateCustomer(customer:CustomerManagement, Id:str):
+    utilitiesCustomer.UpdatePerson(customer,Id)
+    return {"message":"Actualizacion Exitosa"}
+
+
+
+
         
     
