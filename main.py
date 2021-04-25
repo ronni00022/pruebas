@@ -76,6 +76,11 @@ def disableVehicle(Enrollment:str):
     utilitiesVehicle.disableVehicle(Enrollment)
     return {"message": "Actualizacion Existosa"}
 
+@app.put("/enableVehicle/{Enrollment}")
+def enableVehicle(Enrollment:str):
+    utilitiesVehicle.enableVehicle(Enrollment)
+    return {"message": "Actualizacion Existosa"}
+
 #-----------------CUSTOMER------------------------#
 @app.get("/AllClient")
 def AllClient():
@@ -104,6 +109,11 @@ def updateCustomer(customer:CustomerManagement, IDENTIFICATION:str):
 @app.put("/disableClient/{IDENTIFICATION}")
 def disableClient(IDENTIFICATION:str):
     utilitiesCustomer.disableClient(IDENTIFICATION)
+    return {"message":"Actualizacion Exitosa"}
+
+@app.put("/enableClient/{IDENTIFICATION}")
+def enableClient(IDENTIFICATION:str):
+    utilitiesCustomer.enableClient(IDENTIFICATION)
     return {"message":"Actualizacion Exitosa"}
 
 #---------------------RESERVATION-------------------#
