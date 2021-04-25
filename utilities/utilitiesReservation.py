@@ -10,7 +10,7 @@ def createReservation(reservation:ReservationManagement):
     registro.execute("SELECT ID_RESERVATION FROM RESERVATION ORDER BY ID_RESERVATION DESC LIMIT 1")
     id_reservation=registro.fetchall().pop()[0]
 
-    registro.execute("SELECT PRICEPERDAY FROM VEHICLE WHERE ID_VEHICLE = '%s'" % reservation.vehicle)
+    registro.execute("SELECT PRICEPERDAY FROM VEHICLE WHERE Enrollment = '%s'" % reservation.vehicle)
     priceperday=registro.fetchall().pop()[0]
 
     bill = priceperday * (datetime.strptime(reservation.endingdate, "%Y-%m-%d") - datetime.strptime(reservation.startdate, "%Y-%m-%d")).days
@@ -18,8 +18,8 @@ def createReservation(reservation:ReservationManagement):
     registro.execute("INSERT INTO PAYMENT (RESERVATION, BILL, PAYED) VALUES (?,?,?)",(id_reservation, bill, 0.0))
     conexion.commit()
 
-def validateReservation(ending: str,vehicle:str ):
+def validateReservation(reservation:ReservationManagement):
     conexion=sqlite3.connect('app.db')
     registro=conexion.cursor()
-    registro.execute("SELECT * FROM RESERVATION WHERE VEHICLE = '"+vehicle+"' AND ENDINGDATE> '"+ending+"'")
+    registro.execute("SELECT * FROM RESERVATION WHERE VEHICLE = '"+reservation.vehicle+"' AND ('" + reservation.startdate + "' BETWEEN STARDATE AND ENDINGDATE OR '"+reservation.endingdate+"' BETWEEN STARDATE AND ENDINGDATE)")
     return registro.fetchall()

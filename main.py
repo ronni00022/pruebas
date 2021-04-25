@@ -96,8 +96,11 @@ def updateCustomer(customer:CustomerManagement, IDENTIFICATION:str):
 #---------------------RESERVATION-------------------#
 @app.post("/registrationReservation")
 def registrationReservation(reservation:ReservationManagement):
-    if utilitiesReservation.validateReservation(reservation.startdate,reservation.vehicle):
+    data = utilitiesReservation.validateReservation(reservation)
+    if data:
         raise HTTPException(status_code=201, detail="Vehiculo no disponible")
+    
+    print(data)
     utilitiesReservation.createReservation(reservation)
     return {"message":"Registro Existoso"}
 
