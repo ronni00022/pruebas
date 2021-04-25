@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 import  datetime
+
 class User(BaseModel):
     username:str
     password:str
@@ -52,6 +53,6 @@ class ReservationManagement(BaseModel):
     startdate: str
     endingdate: str
 
-
-
-
+class PaymentManagement(BaseModel):
+    PaymentId: str
+    Pay: float
