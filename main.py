@@ -1,7 +1,7 @@
 from fastapi import FastAPI,HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from models import VehicleRegister,CustomerManagement,Login,GestionOfReservs,User
-from utilities import utilitiesUser,utilitiesVehicle,utilitiesCustomer
+from models import VehicleRegister,CustomerManagement,Login,GestionOfReservs,User,ReservationManagement
+from utilities import utilitiesUser,utilitiesVehicle,utilitiesCustomer,utilitiesReservation
 import sqlite3
 
 
@@ -28,7 +28,7 @@ def home():
 @app.post("/registeruser",response_model=User)
 def postItem(user:User, status_code=200):
     validation = utilitiesUser.ValidateRegistration(user)
-    if validation == True:
+    if validation:
         raise HTTPException(status_code=201, detail="Usuario ya existe")
     utilitiesUser.RegisterUser(user)
     return user
@@ -36,7 +36,7 @@ def postItem(user:User, status_code=200):
 @app.post("/login")
 def login(user:Login):
     validation = utilitiesUser.ValidateUser(user)
-    if validation == False:
+    if validation:
         raise HTTPException(status_code=404, detail='Usuario no Existe')
     return {"token": validation}
 
@@ -69,15 +69,38 @@ def updatevehicle (vehicle:VehicleRegister,enrollment:str):
     return {"message":"Actualizacion Exitosa"}
 
 #-----------------CUSTOMER------------------------#
+@app.get("/AllClient")
+def AllClient():
+    data = utilitiesCustomer.AllClient()
+    if data==False:
+        raise HTTPException(status_code=404, detail="No encontrado")
+    return data
+
+@app.get("/getByID/{IDENTIFICATION}")
+def getByID(IDENTIFICATION:str):
+    data = utilitiesCustomer.ClientByIDENTIFICATION(IDENTIFICATION)
+    if data==False:
+        raise HTTPException(status_code=404, detail="No encontrado")
+    return data
+
 @app.post("/registerCustomer")
 def registerCustomer(customer:CustomerManagement):
     utilitiesCustomer.RegistrePerson(customer)
     return {"message":"Registro Existoso"}
 
-@app.put("/updateCustomer/{Id}")
-def updateCustomer(customer:CustomerManagement, Id:str):
-    utilitiesCustomer.UpdatePerson(customer,Id)
+@app.put("/updateCustomer/{IDENTIFICATION}")
+def updateCustomer(customer:CustomerManagement, IDENTIFICATION:str):
+    utilitiesCustomer.UpdatePerson(customer,IDENTIFICATION)
     return {"message":"Actualizacion Exitosa"}
+
+#---------------------RESERVATION-------------------#
+@app.post("/registrationReservation")
+def registrationReservation(reservation:ReservationManagement):
+    if utilitiesReservation.validateReservation(reservation.startdate,reservation.vehicle):
+        raise HTTPException(status_code=201, detail="Vehiculo no disponible")
+    utilitiesReservation.createReservation(reservation)
+    return {"message":"Registro Existoso"}
+
 
 
 

@@ -6,20 +6,14 @@ def ValidateUser(user:Login):
     conexion=sqlite3.connect('app.db')
     registro=conexion.cursor()
     registro.execute("SELECT * FROM USERS WHERE USERNAME = ? AND PASSWORD = ?", (user.username,user.password))
-    if registro.fetchall():
-        token = InsertToken(user)
-        return token
-    else:
-        return False
+    return registro.fetchall()
+    
 
 def ValidateRegistration(user:User):
     conexion=sqlite3.connect('app.db')
     registro=conexion.cursor()
     registro.execute("SELECT * FROM USERS WHERE USERNAME = ? OR EMAIL = ?", (user.username,user.email))
-    if registro.fetchall():
-        return True
-    else:
-        return False
+    return registro.fetchall()
 
 def generateToken():
     token = secrets.token_hex(20)

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+import  datetime
 class User(BaseModel):
     username:str
     password:str
@@ -45,5 +45,13 @@ class AllUpdate(BaseModel):
     Id: str
     campo:str
     valor:str
+
+class ReservationManagement(BaseModel):
+    vehicle: str
+    client: str
+    startdate: str
+    endingdate: str
+
+
 
 
