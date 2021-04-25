@@ -1,5 +1,5 @@
 import sqlite3
-from  models import VehicleRegister
+from  models import VehicleRegister, Dates
 
 def RegisterVehicle(vehicle:VehicleRegister):
     conexion=sqlite3.connect('app.db')
@@ -51,6 +51,15 @@ def disableVehicle(Enrollment:str):
     registro.execute("UPDATE VEHICLE SET CONDITION = 0 WHERE Enrollment == '"+Enrollment+"'")
     conexion.commit()
 
-
-
-
+def availableVehicles(dates:Dates):
+    conexion=sqlite3.connect('app.db')
+    registro=conexion.cursor()
+    registro.execute("SELECT V.* FROM VEHICLE V JOIN RESERVATION R ON V.Enrollment = R.VEHICLE WHERE '%s' NOT BETWEEN R.STARDATE AND R.ENDINGDATE AND '%s' NOT BETWEEN R.STARDATE AND R.ENDINGDATE OR R.STARDATE IS NULL" % dates.startdate, dates.startdate)
+    data = registro.fetchall()
+    if data:
+        return [
+            dict(zip(("BRAND","MODEL","YEAR","COLOUR","PRICEPERDAY","TYPE","LOADCAPACITY","PASSENGERS","Enrollment","INSURANCE_NO","PHOTO","LATITUDE","LONGITUDE","CONDITION"), row))
+            for row in data
+        ]
+    else:
+        return False

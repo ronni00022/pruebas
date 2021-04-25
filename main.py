@@ -48,6 +48,7 @@ def SearchEnrollment(enrollment:str):
     if data == False:
         raise HTTPException(status_code=404, detail="Matricula no existe")
     return data
+    
 @app.get("/AllVehicle")
 def SearchEnrollment():
     data = utilitiesVehicle.AllVehicle()
@@ -75,6 +76,13 @@ def updatevehicle (vehicle:VehicleRegister,enrollment:str):
 def disableVehicle(Enrollment:str):
     utilitiesVehicle.disableVehicle(Enrollment)
     return {"message": "Actualizacion Existosa"}
+
+@app.get("/availableVehicles")
+def availableVehicles(dates:Dates):
+    data = utilitiesVehicle.availableVehicles(dates)
+    if not data:
+        raise HTTPException(status_code=201, detail="No hay vehiculos dispinibles en esa fecha")
+    return data
 
 #-----------------CUSTOMER------------------------#
 @app.get("/AllClient")
@@ -112,8 +120,6 @@ def registrationReservation(reservation:ReservationManagement):
     data = utilitiesReservation.validateReservation(reservation)
     if data:
         raise HTTPException(status_code=201, detail="Vehiculo no disponible")
-    
-    print(data)
     utilitiesReservation.createReservation(reservation)
     return {"message":"Registro Existoso"}
 

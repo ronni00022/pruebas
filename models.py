@@ -56,3 +56,7 @@ class ReservationManagement(BaseModel):
 class PaymentManagement(BaseModel):
     PaymentId: str
     Pay: float
+
+class Dates(BaseModel):
+    Startdate: str
+    Endingdate: str
