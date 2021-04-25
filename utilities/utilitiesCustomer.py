@@ -35,8 +35,7 @@ def ClientByIDENTIFICATION(IDENTIFICATION:str):
     data = registro.fetchall()
     if data !=[]:
         for client in data:
-            listClients.append({"ID_CUSTOMER":client[0],"IDENTIFICATION":client[1],"FIRSTNAME":client[2],"LASTNAME":client[3],"EMAIL":client[4],"LICENSE":client[5],"NATIONALITY":client[6],"BLOODTYPE":client[7],"PHOTOPERSON":client[8],"PHOTOLICENSE":client[9],"CONDITION":client[10]})
-        return listClients
+            return{"ID_CUSTOMER":client[0],"IDENTIFICATION":client[1],"FIRSTNAME":client[2],"LASTNAME":client[3],"EMAIL":client[4],"LICENSE":client[5],"NATIONALITY":client[6],"BLOODTYPE":client[7],"PHOTOPERSON":client[8],"PHOTOLICENSE":client[9],"CONDITION":client[10]}
     else:
         return False
 
