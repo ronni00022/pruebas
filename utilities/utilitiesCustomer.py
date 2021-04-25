@@ -39,6 +39,13 @@ def ClientByIDENTIFICATION(IDENTIFICATION:str):
     else:
         return False
 
+def disableClient(IDENTIFICATION:str):
+    conexion=sqlite3.connect('app.db')
+    registro=conexion.cursor()
+    registro.execute("UPDATE CUSTOMER SET CONDITION = 0 WHERE IDENTIFICATION == '"+IDENTIFICATION+"'")
+    conexion.commit()
+
+
 
 
 

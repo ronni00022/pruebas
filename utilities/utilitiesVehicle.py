@@ -27,7 +27,7 @@ def SearchVehicleByEnrollment(enrollment:str):
     if data !=[]:
         for vehicle in data:
             conexion.commit()
-            return {"BRAND":vehicle[1],"MODEL":vehicle[2],"YEAR":vehicle[3],"COLOUR":vehicle[4],"PRICEPERDAY":vehicle[5],"TYPE":vehicle[6],"LOADCAPACITY":vehicle[7],"PASSENGERS":vehicle[8],"Enrollment":vehicle[9],"INSURANCE_NO":vehicle[10],"PHOTO":vehicle[11],"LATITUDE":vehicle[12],"LONGITUDE":vehicle[13]}
+            return {"BRAND":vehicle[1],"MODEL":vehicle[2],"YEAR":vehicle[3],"COLOUR":vehicle[4],"PRICEPERDAY":vehicle[5],"TYPE":vehicle[6],"LOADCAPACITY":vehicle[7],"PASSENGERS":vehicle[8],"Enrollment":vehicle[9],"INSURANCE_NO":vehicle[10],"PHOTO":vehicle[11],"LATITUDE":vehicle[12],"LONGITUDE":vehicle[13],"CONDITION":vehicle[14]}
     else:
         return False
 
@@ -39,11 +39,18 @@ def AllVehicle():
     data = registro.fetchall()
     if data !=[]:
         for vehicle in data:
-            listData.append({"BRAND":vehicle[1],"MODEL":vehicle[2],"YEAR":vehicle[3],"COLOUR":vehicle[4],"PRICEPERDAY":vehicle[5],"TYPE":vehicle[6],"LOADCAPACITY":vehicle[7],"PASSENGERS":vehicle[8],"Enrollment":vehicle[9],"INSURANCE_NO":vehicle[10],"PHOTO":vehicle[11],"LATITUDE":vehicle[12],"LONGITUDE":vehicle[13]})
+            listData.append({"BRAND":vehicle[1],"MODEL":vehicle[2],"YEAR":vehicle[3],"COLOUR":vehicle[4],"PRICEPERDAY":vehicle[5],"TYPE":vehicle[6],"LOADCAPACITY":vehicle[7],"PASSENGERS":vehicle[8],"Enrollment":vehicle[9],"INSURANCE_NO":vehicle[10],"PHOTO":vehicle[11],"LATITUDE":vehicle[12],"LONGITUDE":vehicle[13],"CONDITION":vehicle[14]})
             conexion.commit()
         return listData
     else:
         return False
+
+def disableVehicle(Enrollment:str):
+    conexion=sqlite3.connect('app.db')
+    registro=conexion.cursor()
+    registro.execute("UPDATE VEHICLE SET CONDITION = 0 WHERE Enrollment == '"+Enrollment+"'")
+    conexion.commit()
+
 
 
 

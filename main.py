@@ -71,6 +71,11 @@ def updatevehicle (vehicle:VehicleRegister,enrollment:str):
     utilitiesVehicle.UpdateVehicle(vehicle,enrollment)
     return {"message":"Actualizacion Exitosa"}
 
+@app.put("/disableVehicle/{Enrollment}")
+def disableVehicle(Enrollment:str):
+    utilitiesVehicle.disableVehicle(Enrollment)
+    return {"message": "Actualizacion Existosa"}
+
 #-----------------CUSTOMER------------------------#
 @app.get("/AllClient")
 def AllClient():
@@ -94,6 +99,11 @@ def registerCustomer(customer:CustomerManagement):
 @app.put("/updateCustomer/{IDENTIFICATION}")
 def updateCustomer(customer:CustomerManagement, IDENTIFICATION:str):
     utilitiesCustomer.UpdatePerson(customer,IDENTIFICATION)
+    return {"message":"Actualizacion Exitosa"}
+
+@app.put("/disableClient/{IDENTIFICATION}")
+def disableClient(IDENTIFICATION:str):
+    utilitiesCustomer.disableClient(IDENTIFICATION)
     return {"message":"Actualizacion Exitosa"}
 
 #---------------------RESERVATION-------------------#
