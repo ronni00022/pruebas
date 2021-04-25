@@ -83,6 +83,10 @@ def availableVehicles(dates:Dates):
     if not data:
         raise HTTPException(status_code=201, detail="No hay vehiculos dispinibles en esa fecha")
     return data
+@app.put("/enableVehicle/{Enrollment}")
+def enableVehicle(Enrollment:str):
+    utilitiesVehicle.enableVehicle(Enrollment)
+    return {"message": "Actualizacion Existosa"}
 
 #-----------------CUSTOMER------------------------#
 @app.get("/AllClient")
@@ -112,6 +116,11 @@ def updateCustomer(customer:CustomerManagement, IDENTIFICATION:str):
 @app.put("/disableClient/{IDENTIFICATION}")
 def disableClient(IDENTIFICATION:str):
     utilitiesCustomer.disableClient(IDENTIFICATION)
+    return {"message":"Actualizacion Exitosa"}
+
+@app.put("/enableClient/{IDENTIFICATION}")
+def enableClient(IDENTIFICATION:str):
+    utilitiesCustomer.enableClient(IDENTIFICATION)
     return {"message":"Actualizacion Exitosa"}
 
 #---------------------RESERVATION-------------------#
