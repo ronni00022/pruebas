@@ -1,7 +1,7 @@
 from fastapi import FastAPI,HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from models import VehicleRegister,CustomerManagement,Login,GestionOfReservs,User,ReservationManagement
-from utilities import utilitiesUser,utilitiesVehicle,utilitiesCustomer,utilitiesReservation
+from models import * 
+from utilities import utilitiesUser,utilitiesVehicle,utilitiesCustomer,utilitiesReservation, utilitiesPayment
 import sqlite3
 
 
@@ -101,9 +101,16 @@ def registrationReservation(reservation:ReservationManagement):
     utilitiesReservation.createReservation(reservation)
     return {"message":"Registro Existoso"}
 
+#---------------------PAYMENT-------------------#
 
+@app.get("/getAllPayments")
+def getAllPayments():
+    data = utilitiesPayment.allPayments()
+    return data
 
-
-
-        
-    
+@app.put("/updatePayment")
+def updatePayment(pay:PaymentManagement):
+    devuelta = utilitiesPayment.updatePayment(pay)
+    if devuelta < 0:
+        raise HTTPException(status_code=201, detail="Esa Id no existe")
+    return {"message":"Pago actualizado", "devuelta":devuelta}
