@@ -57,6 +57,9 @@ def SearchEnrollment():
 
 @app.post("/registervehicle")
 def registervehicle(vehicle:VehicleRegister):
+    data = utilitiesVehicle.SearchVehicleByEnrollment(vehicle.Enrollment)
+    if data:
+        raise HTTPException(status_code=201, detail="Esa matricula ya existe")
     utilitiesVehicle.RegisterVehicle(vehicle)
     return {"message":"Registro Exitoso"}
 
