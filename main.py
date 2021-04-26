@@ -85,7 +85,7 @@ def availableVehicles(startdate:str, endingdate:str):
     return data
 
 @app.get("/enableVehicles")
-def enableVehicles(startdate:str, endingdate:str):
+def enableVehicles():
     data = utilitiesVehicle.enableVehicles()
     if not data:
         raise HTTPException(status_code=201, detail="No hay vehiculos dispinibles")
