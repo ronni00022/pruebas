@@ -63,7 +63,20 @@ def availableVehicles(dates:Dates):
         ]
     else:
         return False
-        
+
+def enableVehicles():
+    conexion=sqlite3.connect('app.db')
+    registro=conexion.cursor()
+    registro.execute("SELECT * FROM VEHICLE WHERE CONDITION = 1")
+    data = registro.fetchall()
+    if data:
+        return [
+            dict(zip(("BRAND","MODEL","YEAR","COLOUR","PRICEPERDAY","TYPE","LOADCAPACITY","PASSENGERS","Enrollment","INSURANCE_NO","PHOTO","LATITUDE","LONGITUDE","CONDITION"), row))
+            for row in data
+        ]
+    else:
+        return False
+
 def enableVehicle(Enrollment:str):
     conexion=sqlite3.connect('app.db')
     registro=conexion.cursor()

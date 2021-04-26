@@ -84,6 +84,13 @@ def availableVehicles(startdate:str, endingdate:str):
         raise HTTPException(status_code=201, detail="No hay vehiculos dispinibles en esa fecha")
     return data
 
+@app.get("/enableVehicles")
+def enableVehicles(startdate:str, endingdate:str):
+    data = utilitiesVehicle.enableVehicles()
+    if not data:
+        raise HTTPException(status_code=201, detail="No hay vehiculos dispinibles")
+    return data
+
 @app.put("/enableVehicle/{Enrollment}")
 def enableVehicle(Enrollment:str):
     utilitiesVehicle.enableVehicle(Enrollment)
