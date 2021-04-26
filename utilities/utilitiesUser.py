@@ -6,7 +6,7 @@ def ValidateUser(user:Login):
     conexion=sqlite3.connect('app.db')
     registro=conexion.cursor()
     registro.execute("SELECT * FROM USERS WHERE USERNAME = ? AND PASSWORD = ?", (user.username,user.password))
-    return registro.fetchall()
+    return registro.fetchone()
     
 
 def ValidateRegistration(user:User):

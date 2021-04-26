@@ -36,9 +36,13 @@ def postItem(user:User, status_code=200):
 @app.post("/login")
 def login(user:Login):
     validation = utilitiesUser.ValidateUser(user)
-    if validation:
+    if not validation:
         raise HTTPException(status_code=404, detail='Usuario no Existe')
-    return {"token": validation}
+    if validation[4]:
+        return {"token": validation[4]}
+    token = utilitiesUser.generateToken()
+    utilitiesUser.InsertToken(user)
+    return {"token": token}
 
 #----------------------VEHICLE---------------------------#
 
