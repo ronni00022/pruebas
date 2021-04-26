@@ -58,7 +58,7 @@ def clientsDebd():
     data = registro.fetchall()
     if data:
         return [
-            dict(zip("IDENTIFICATION","FIRSTNAME","LASTNAME","TOTAL_DEBD"), row)
+            dict(zip(("IDENTIFICATION","FIRSTNAME","LASTNAME","TOTAL_DEBD"), row))
             for row in data
         ]
     else:
