@@ -51,7 +51,15 @@ def enableClient(IDENTIFICATION:str):
     registro.execute("UPDATE CUSTOMER SET CONDITION = 1 WHERE IDENTIFICATION == '"+IDENTIFICATION+"'")
     conexion.commit()
 
-
-
-
-
+def clientsDebd():
+    conexion=sqlite3.connect('app.db')
+    registro=conexion.cursor()
+    registro.execute("SELECT C.IDENTIFICATION, C.FIRSTNAME, C.LASTNAME, IFNULL(SUM(P.BILL - P.PAYED), 0) AS 'TOTAL_DEBD' FROM CUSTOMER C LEFT JOIN RESERVATION R ON C.IDENTIFICATION = R.CLIENT LEFT JOIN PAYMENT P ON R.ID_RESERVATION = P.RESERVATION GROUP BY C.IDENTIFICATION")
+    data = registro.fetchall()
+    if data:
+        return [
+            dict(zip("IDENTIFICATION","FIRSTNAME","LASTNAME","TOTAL_DEBD"), row)
+            for row in data
+        ]
+    else:
+        return False

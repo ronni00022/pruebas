@@ -83,5 +83,15 @@ def enableVehicle(Enrollment:str):
     registro.execute("UPDATE VEHICLE SET CONDITION = 1 WHERE Enrollment == '"+Enrollment+"'")
     conexion.commit()
 
-
-
+def benefitList():
+    conexion=sqlite3.connect('app.db')
+    registro=conexion.cursor()
+    registro.execute("SELECT V.*, COUNT(ID_RESERVATION) AS 'TOTAL_RESERVATIONS', IFNULL(SUM(P.BILL), 0) AS 'TOTAL_BILL' FROM VEHICLE V LEFT JOIN RESERVATION R ON V.Enrollment = R.VEHICLE LEFT JOIN PAYMENT P ON R.ID_RESERVATION = P.RESERVATION GROUP BY V.ID_VEHICLE")
+    data = registro.fetchall()
+    if data:
+        return [
+            dict(zip(("BRAND","MODEL","YEAR","COLOUR","PRICEPERDAY","TYPE","LOADCAPACITY","PASSENGERS","Enrollment","INSURANCE_NO","PHOTO","LATITUDE","LONGITUDE","CONDITION","TOTAL_RESERVATIONS","TOTAL_BILL"), row))
+            for row in data
+        ]
+    else:
+        return False

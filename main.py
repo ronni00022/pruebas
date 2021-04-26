@@ -96,6 +96,11 @@ def enableVehicle(Enrollment:str):
     utilitiesVehicle.enableVehicle(Enrollment)
     return {"message": "Actualizacion Existosa"}
 
+@app.get("/benefitList")
+def benefitList():
+    data = utilitiesVehicle.benefitList()
+    return data
+
 #-----------------CUSTOMER------------------------#
 @app.get("/AllClient")
 def AllClient():
@@ -130,6 +135,11 @@ def disableClient(IDENTIFICATION:str):
 def enableClient(IDENTIFICATION:str):
     utilitiesCustomer.enableClient(IDENTIFICATION)
     return {"message":"Actualizacion Exitosa"}
+
+@app.get("/clientsDebd")
+def clientsDebd():
+    data = utilitiesCustomer.clientsDebd()
+    return data
 
 #---------------------RESERVATION-------------------#
 @app.post("/registrationReservation")
