@@ -77,12 +77,13 @@ def disableVehicle(Enrollment:str):
     utilitiesVehicle.disableVehicle(Enrollment)
     return {"message": "Actualizacion Existosa"}
 
-@app.get("/availableVehicles")
-def availableVehicles(dates:Dates):
-    data = utilitiesVehicle.availableVehicles(dates)
+@app.get("/availableVehicles/{startdate}/{endingdate}")
+def availableVehicles(startdate:str, endingdate:str):
+    data = utilitiesVehicle.availableVehicles(Dates(startdate=startdate, endingdate=endingdate))
     if not data:
         raise HTTPException(status_code=201, detail="No hay vehiculos dispinibles en esa fecha")
     return data
+
 @app.put("/enableVehicle/{Enrollment}")
 def enableVehicle(Enrollment:str):
     utilitiesVehicle.enableVehicle(Enrollment)
