@@ -58,7 +58,7 @@ def availableVehicles(dates:Dates):
     data = registro.fetchall()
     if data:
         return [
-            dict(zip(("BRAND","MODEL","YEAR","COLOUR","PRICEPERDAY","TYPE","LOADCAPACITY","PASSENGERS","Enrollment","INSURANCE_NO","PHOTO","LATITUDE","LONGITUDE","CONDITION"), row))
+            dict(zip(("BRAND","MODEL","YEAR","COLOUR","PRICEPERDAY","TYPE","LOADCAPACITY","PASSENGERS","Enrollment","INSURANCE_NO","PHOTO","LATITUDE","LONGITUDE","CONDITION"), row[1:]))
             for row in data
         ]
     else:
@@ -71,7 +71,7 @@ def enableVehicles():
     data = registro.fetchall()
     if data:
         return [
-            dict(zip(("BRAND","MODEL","YEAR","COLOUR","PRICEPERDAY","TYPE","LOADCAPACITY","PASSENGERS","Enrollment","INSURANCE_NO","PHOTO","LATITUDE","LONGITUDE","CONDITION"), row))
+            dict(zip(("BRAND","MODEL","YEAR","COLOUR","PRICEPERDAY","TYPE","LOADCAPACITY","PASSENGERS","Enrollment","INSURANCE_NO","PHOTO","LATITUDE","LONGITUDE","CONDITION"), row[1:]))
             for row in data
         ]
     else:
@@ -90,7 +90,7 @@ def benefitList():
     data = registro.fetchall()
     if data:
         return [
-            dict(zip(("BRAND","MODEL","YEAR","COLOUR","PRICEPERDAY","TYPE","LOADCAPACITY","PASSENGERS","Enrollment","INSURANCE_NO","PHOTO","LATITUDE","LONGITUDE","CONDITION","TOTAL_RESERVATIONS","TOTAL_BILL"), row))
+            dict(zip(("BRAND","MODEL","YEAR","COLOUR","PRICEPERDAY","TYPE","LOADCAPACITY","PASSENGERS","Enrollment","INSURANCE_NO","PHOTO","LATITUDE","LONGITUDE","CONDITION","TOTAL_RESERVATIONS","TOTAL_BILL"), row[1:]))
             for row in data
         ]
     else:
