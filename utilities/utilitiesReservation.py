@@ -10,7 +10,7 @@ def createReservation(reservation:ReservationManagement):
     registro.execute("SELECT ID_RESERVATION FROM RESERVATION ORDER BY ID_RESERVATION DESC LIMIT 1")
     id_reservation=registro.fetchall().pop()[0]
 
-    registro.execute("SELECT PRICEPERDAY FROM VEHICLE WHERE Enrollment = '%s'" % reservation.vehicle)
+    registro.execute("SELECT PRICEPERDAY FROM VEHICLE WHERE Enrollment = '{0}'".format(reservation.vehicle))
     priceperday=registro.fetchall().pop()[0]
 
     bill = priceperday * (datetime.strptime(reservation.endingdate, "%Y-%m-%d") - datetime.strptime(reservation.startdate, "%Y-%m-%d")).days

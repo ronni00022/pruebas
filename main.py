@@ -83,7 +83,7 @@ def disableVehicle(Enrollment:str):
 
 @app.get("/availableVehicles/{startdate}/{endingdate}")
 def availableVehicles(startdate:str, endingdate:str):
-    data = utilitiesVehicle.availableVehicles(Dates(startdate=startdate, endingdate=endingdate))
+    data = utilitiesVehicle.availableVehicles(Dates(Startdate=startdate, Endingdate=endingdate))
     if not data:
         raise HTTPException(status_code=201, detail="No hay vehiculos dispinibles en esa fecha")
     return data

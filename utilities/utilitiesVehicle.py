@@ -54,7 +54,7 @@ def disableVehicle(Enrollment:str):
 def availableVehicles(dates:Dates):
     conexion=sqlite3.connect('app.db')
     registro=conexion.cursor()
-    registro.execute("SELECT V.* FROM VEHICLE V JOIN RESERVATION R ON V.Enrollment = R.VEHICLE WHERE CONDITION IS TRUE AND '%s' NOT BETWEEN R.STARDATE AND R.ENDINGDATE AND '%s' NOT BETWEEN R.STARDATE AND R.ENDINGDATE OR R.STARDATE IS NULL" % dates.startdate, dates.startdate)
+    registro.execute("SELECT V.* FROM VEHICLE V JOIN RESERVATION R ON V.Enrollment = R.VEHICLE WHERE CONDITION IS TRUE AND '{0}' NOT BETWEEN R.STARDATE AND R.ENDINGDATE AND '{1}' NOT BETWEEN R.STARDATE AND R.ENDINGDATE OR R.STARDATE IS NULL".format(dates.Startdate, dates.Endingdate))
     data = registro.fetchall()
     if data:
         return [
