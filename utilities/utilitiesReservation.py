@@ -13,7 +13,7 @@ def createReservation(reservation:ReservationManagement):
     registro.execute("SELECT PRICEPERDAY FROM VEHICLE WHERE Enrollment = '{0}'".format(reservation.vehicle))
     priceperday=registro.fetchall().pop()[0]
 
-    bill = priceperday * (datetime.strptime(reservation.endingdate, "%Y-%m-%d") - datetime.strptime(reservation.startdate, "%Y-%m-%d")).days
+    bill = priceperday * (datetime.strptime(reservation.endingdate, "%d-%m-%Y") - datetime.strptime(reservation.startdate, "%d-%m-%Y")).days
 
     registro.execute("INSERT INTO PAYMENT (RESERVATION, BILL, PAYED) VALUES (?,?,?)",(id_reservation, bill, 0.0))
     conexion.commit()
